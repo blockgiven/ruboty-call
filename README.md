@@ -2,6 +2,8 @@
 
 ruboty plugin for make a call to you.
 
+![screenshot](screenshot.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
