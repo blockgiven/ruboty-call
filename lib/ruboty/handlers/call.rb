@@ -3,6 +3,7 @@ module Ruboty
     class Call < Base
       env :TWILIO_ACCOUNT_SID, 'twilio account sid'
       env :TWILIO_AUTH_TOKEN, 'twilio auth token'
+      env :TWILIO_DISABLE_RECORD, 'Pass 1 to disable recording (default: nil)'
       env :RUBOTY_PHONE_NUMBER, 'twilio phone number'
       env :RUBOTY_LANG, 'which language ruboty speaks. details: https://jp.twilio.com/docs/api/twiml/say#attributes-language', optional: true
 

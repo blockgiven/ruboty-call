@@ -22,6 +22,14 @@ module Ruboty
           ENV['RUBOTY_LANG'] || 'ja-JP'
         end
 
+        def record?
+          ENV['TWILIO_DISABLE_RECORD'] != '1'
+        end
+
+        def record_value
+          record? ? 'true' : 'false'
+        end
+
         def max_recording_time
           MAX_RECORDING_TIME
         end
@@ -34,7 +42,7 @@ module Ruboty
             :method => 'GET',
             :fallback_method => 'GET',
             :status_callback_method => 'GET',
-            :record => 'true'
+            :record => record_value
           })
 
           loop do
@@ -47,10 +55,13 @@ module Ruboty
             end
 
             message.reply(status_text[c.status])
-            recs = c.recordings.list
-            if recs.size.nonzero?
-              urls = recs.map {|r| "https://api.twilio.com#{r.uri.gsub(/.json$/, '.mp3')}" }
-              message.reply("おへんじ:#{$/}#{urls.join($/)}")
+
+            if record?
+              recs = c.recordings.list
+              if recs.size.nonzero?
+                urls = recs.map {|r| "https://api.twilio.com#{r.uri.gsub(/.json$/, '.mp3')}" }
+                message.reply("おへんじ:#{$/}#{urls.join($/)}")
+              end
             end
             break
           end
@@ -88,13 +99,12 @@ module Ruboty
         end
 
         def twiml
-          <<TWIML
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-    <Say voice="alice" language="#{language}">#{text}</Say>
-    <Record maxLength="#{max_recording_time}" />
-</Response>
-TWIML
+          response = Twilio::TwiML::Response.new do |r|
+            r.Say text, voice: 'alice', language: language
+            r.Record maxLength: max_recording_time if record?
+          end
+
+          response.text
         end
 
         def twiml_url
