@@ -24,11 +24,12 @@ Or install it yourself as:
 
 You need to get [Twilio](https://jp.twilio.com/) account and set these environment variables
 
-| env                 | description         |
-| ------------------- | ------------------- |
-| TWILIO_ACCOUNT_SID  | twilio account sid  |
-| TWILIO_AUTH_TOKEN   | twilio auth token   |
-| RUBOTY_PHONE_NUMBER | twilio phone number |
+| env                   | description                                |
+| --------------------- | ------------------------------------------ |
+| TWILIO_ACCOUNT_SID    | twilio account sid                         |
+| TWILIO_AUTH_TOKEN     | twilio auth token                          |
+| TWILIO_DISABLE_RECORD | Pass 1 to disable recording (default: nil) |
+| RUBOTY_PHONE_NUMBER   | twilio phone number                        |
 
 then:
 
